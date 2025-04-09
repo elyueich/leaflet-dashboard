@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PMP Dashboard - Leaflet</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" />
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Sidebar -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="#" class="brand-link text-center">
+      <span class="brand-text font-weight-light">PMPVOD</span>
+    </a>
+    <div class="sidebar">
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-chart-line"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-database"></i>
+              <p>Data</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-pencil-alt"></i>
+              <p>Edit</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+          </div>
+          <div class="col-sm-6 text-right">
+            <span>Home / Dashboard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-4 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>XXX</h3>
+                <p>Jumlah Titik</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-6">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>YYYY</h3>
+                <p>Jumlah Garis</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-route"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>ZZZ</h3>
+                <p>Jumlah Area</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-draw-polygon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-map-marked-alt"></i> Peta</h3>
+          </div>
+          <div class="card-body">
+            <div id="map"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+<script>
+  var map = L.map('map').setView([-3.0, 119.0], 7);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Contoh data GeoJSON titik
+  var sampleGeoJson = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {"name": "Titik Contoh 1"},
+        "geometry": {
+          "type": "Point",
+          "coordinates": [119.0, -3.0]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {"name": "Titik Contoh 2"},
+        "geometry": {
+          "type": "Point",
+          "coordinates": [119.2, -3.1]
+        }
+      }
+    ]
+  };
+
+  L.geoJSON(sampleGeoJson, {
+    onEachFeature: function (feature, layer) {
+      layer.bindPopup("<strong>" + feature.properties.name + "</strong>");
+    }
+  }).addTo(map);
+</script>
+</body>
+</html>

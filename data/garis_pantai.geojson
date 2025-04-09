@@ -1,0 +1,20 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "tahun": 2016
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [115.210, -8.650],
+            [115.220, -8.645],
+            [115.230, -8.640]
+          ]
+        }
+      }
+    ]
+  }
+  
