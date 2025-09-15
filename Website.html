@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Web dengan Tab Visualisasi dan Kontrol Lengkap</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha2d3996/gLd9Oq/m0tN9d61j632w5f5o0j2G8/9e1/e0p9d74f/j07d93d399639d61j6" crossorigin="" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-spin@1.1.0/leaflet.spin.css" />
+    <!-- <link rel="stylesheet" href="https://raw.githubusercontent.com/elyueich/leaflet-dashboard/refs/heads/main/style.css" /> -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-left" id="menu-toggle-area">
+            <i class="fas fa-bars" id="menu-toggle"></i>
+        </div>
+        <div class="top-bar-right">
+            <span class="top-bar-title">Visualisasi Data</span>
+            <div>
+                <button id="geolocation-btn" class="geolocation-button">
+                    <i class="fas fa-location-dot"></i>
+                </button>
+                <button id="fullscreen-btn" class="fullscreen-button">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidemenu-container" id="sidemenu">
+        <div class="sidemenu-item" data-target="layer-menu">
+            <i class="fas fa-layer-group"></i>
+            <span>Layer</span>
+        </div>
+        <div class="sidemenu-item" data-target="legenda-menu">
+            <i class="fas fa-book-open"></i>
+            <span>Legenda</span>
+        </div>
+        <div class="sidemenu-item" data-target="slider-menu">
+            <i class="fas fa-sliders-h"></i>
+            <span>Slider</span>
+        </div>
+        <div class="sidemenu-item" data-target="filter-menu">
+            <i class="fas fa-filter"></i>
+            <span>Filter</span>
+        </div>
+        <div class="sidemenu-item" data-target="informasi-menu">
+            <i class="fas fa-info-circle"></i>
+            <span>Informasi</span>
+        </div>
+        <div class="sidemenu-item" data-target="tabel-menu">
+            <i class="fas fa-table"></i>
+            <span>Tabel</span>
+        </div>
+    </div>
+
+    <!-- Div for each menu -->
+    <div id="layer-menu" class="menu-div">
+        <div class="menu-top">
+            <h3>Layer</h3>
+            <button class="close-button" data-target-close="layer-menu">&times;</button>
+        </div>
+        <div class="menu-content">
+
+            <!-- Basemap Dropdown -->
+            <details open>
+                <summary>Basemap <i class="fas fa-chevron-down"></i></summary>
+                <div id="basemap-controls" class="radio-group dropdown-content">
+                    <label>
+                        <input type="radio" name="basemap" value="esri-bw" checked> Esri Hitam & Putih
+                    </label>
+                    <label>
+                        <input type="radio" name="basemap" value="osm"> OpenStreetMap
+                    </label>
+                    <label>
+                        <input type="radio" name="basemap" value="esri-satelit"> Esri World Imagery
+                    </label>
+                </div>
+            </details>
+
+            <!-- Variabel Kerentanan Dropdown -->
+            <details>
+                <summary>Variabel Kerentanan <i class="fas fa-chevron-down"></i></summary>
+                <div class="checkbox-group dropdown-content">
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="slrln"> SLR Line
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="slrln"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="waveln"> WAVE Line
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="waveln"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="glgln"> GLG Line
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="glgln"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="slpln"> SLP Line
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="slpln"></i>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Garis Pantai Dropdown -->
+            <details>
+                <summary>Garis Pantai <i class="fas fa-chevron-down"></i></summary>
+                <div class="checkbox-group dropdown-content">
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2016"> Garis Pantai 2016
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2016"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2017"> Garis Pantai 2017
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2017"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2018"> Garis Pantai 2018
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2018"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2019"> Garis Pantai 2019
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2019"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2020"> Garis Pantai 2020
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2020"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2021"> Garis Pantai 2021
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2021"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2022"> Garis Pantai 2022
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2022"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2023"> Garis Pantai 2023
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2023"></i>
+                    </div>
+                    <div class="layer-item">
+                        <label>
+                            <input type="checkbox" name="overlay" value="garis-pantai-2024"> Garis Pantai 2024
+                        </label>
+                        <i class="fas fa-table table-icon" data-layer="garis-pantai-2024"></i>
+                    </div>
+                </div>
+            </details>
+
+        </div>
+    </div>
+
+    <div id="legenda-menu" class="menu-div">
+        <div class="menu-top">
+            <h3>Legenda</h3>
+            <button class="close-button" data-target-close="legenda-menu">&times;</button>
+        </div>
+        <div class="menu-content">
+            <p id="no-legend-text" style="text-align: center; color: #777;">Tidak ada legenda yang ditampilkan.</p>
+            <div id="legenda-container"></div>
+        </div>
+    </div>
+
+    <!-- New Slider Menu -->
+    <div id="slider-menu" class="menu-div">
+        <div class="menu-top">
+            <h3>Slider</h3>
+            <button class="close-button" data-target-close="slider-menu">&times;</button>
+        </div>
+        <div class="menu-content">
+            <h4>Atur Transparansi Layer</h4>
+            <p>Gunakan penggeser untuk mengatur transparansi layer yang paling atas.</p>
+            <input type="range" id="transparency-slider" min="0" max="100" value="100" style="width: 100%;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px;">
+                <span>Transparan</span>
+                <span>Buram</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Filter Menu -->
+    <div id="filter-menu" class="menu-div">
+        <div class="menu-top">
+            <h3>Filter</h3>
+            <button class="close-button" data-target-close="filter-menu">&times;</button>
+        </div>
+        <div class="menu-content">
+            <p id="filter-initial-text" style="text-align: center; color: #777;">Pilih layer di menu 'Layer' untuk menampilkan opsi filter.</p>
+
+            <div id="kecamatan-filter-group" class="filter-group">
+                <h4>Filter Berdasarkan Kecamatan</h4>
+                <div class="select-group">
+                    <select id="kecamatan-filter">
+                        <option value="">-- Pilih Kecamatan --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="desa-filter-group" class="filter-group">
+                <h4>Filter Berdasarkan Desa</h4>
+                <div class="select-group">
+                    <select id="desa-filter">
+                        <option value="">-- Pilih Desa --</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr style="margin: 15px 0;">
+            <button id="reset-filter-btn" style="width: 100%; padding: 10px; background-color: #ef4444; color: white; border: none; cursor: pointer; display: none;">Reset Filter</button>
+            <hr style="margin: 15px 0;">
+        </div>
+    </div>
+
+    <div id="informasi-menu" class="menu-div">
+        <div class="menu-top">
+            <h3>Informasi</h3>
+            <button class="close-button" data-target-close="informasi-menu">&times;</button>
+        </div>
+        <div class="menu-content">
+            <p>Klik ikon tabel pada menu "Layer" untuk menampilkan data di sini.</p>
+        </div>
+    </div>
+
+    <!-- Tabel Menu -->
+    <div id="tabel-menu" class="menu-div">
+        <div class="menu-top">
+            <h3>Tabel</h3>
+            <button class="close-button" data-target-close="tabel-menu">&times;</button>
+        </div>
+        <div class="menu-content" id="table-content">
+            <p style="text-align: center; color: #777;">Klik ikon tabel pada menu "Layer" untuk menampilkan data di
+                sini.</p>
+        </div>
+    </div>
+
+    <!-- New Visualization Tab -->
+    <div id="visualisasi-tab-container">
+        <div class="visualisasi-tab-header" id="visualisasi-tab-header">
+            <h3 id="visualisasi-tab-title">Visualisasi Data</h3>
+            <button class="visualisasi-tab-close-btn">&times;</button>
+        </div>
+        <div class="visualisasi-tab-content-wrapper" id="visualisasi-tab-content-wrapper">
+            <!-- Navigation arrows -->
+            <button id="prev-btn" class="image-control-btn arrow prev-btn" style="display: none;"><i
+                    class="fas fa-chevron-left"></i></button>
+            <div class="visualisasi-tab-content" id="visualisasi-tab-content">
+                <!-- Content will be injected here by JavaScript -->
+            </div>
+            <button id="next-btn" class="image-control-btn arrow next-btn" style="display: none;"><i
+                    class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha2d3996/gLd9Oq/m0tN9d61j632w5f5o0j2G8/9e1/e0p9d74f/j07d93d399639d61j6" crossorigin=""></script>
+    <!-- Leaflet Providers for additional basemaps -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-providers@1.13.0/leaflet-providers.js"></script>
+    <!-- Leaflet Spin for loading indicator -->
+    <script src="https://cdn.jsdelivr.net/npm/spin.js@2.3.2/spin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-spin@1.1.0/leaflet.spin.min.js"></script>
+    <!-- <script src="https://raw.githubusercontent.com/elyueich/leaflet-dashboard/refs/heads/main/control.js"></script> -->
+    <script src="javascript.js"></script>
+</body>
+
+</html>
