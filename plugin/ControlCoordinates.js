@@ -1,15 +1,3 @@
-"use strict";
-
-/**
- * author Michal Zimmermann <zimmicz@gmail.com>
- * Displays coordinates of mouseclick.
- * @param object options:
- *        position: bottomleft, bottomright etc. (just as you are used to it with Leaflet)
- *        latitudeText: description of latitude value (defaults to lat.)
- *        longitudeText: description of latitude value (defaults to lon.)
- *        promptText: text displayed when user clicks the control
- *        precision: number of decimals to be displayed
- */
 L.Control.Coordinates = L.Control.extend({
 	options: {
 		position: 'bottomright',
@@ -77,4 +65,5 @@ L.Control.Coordinates = L.Control.extend({
 			L.DomUtil.get(this._lng).innerHTML = '<strong>' + this.options.longitudeText + ':</strong> ' + obj.latlng.lng.toFixed(this.options.precision).toString();
 		}
 	}
+
 });
